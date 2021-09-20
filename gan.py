@@ -96,7 +96,7 @@ checkpoint = tf.train.Checkpoint(generator_optimizer=generator_optimizer,
                                  generator=generator,
                                  discriminator=discriminator)
 
-EPOCHS = 10
+EPOCHS = 3
 noise_dim = 100
 num_examples_to_generate = 16
 
@@ -163,31 +163,31 @@ def generate_and_save_images(model, epoch, test_input):
       plt.axis('off')
 
   plt.savefig('image_at_epoch_{:04d}.png'.format(epoch))
-  # plt.show()
+  plt.show()
 
 train(train_dataset, EPOCHS)
 
 checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
 
 # Display a single image using the epoch number
-# def display_image(epoch_no):
-#   return PIL.Image.open('image_at_epoch_{:04d}.png'.format(epoch_no))
+def display_image(epoch_no):
+  return PIL.Image.open('image_at_epoch_{:04d}.png'.format(epoch_no))
 
-# display_image(EPOCHS)
+display_image(EPOCHS)
 
 anim_file = 'dcgan.gif'
 
-# with imageio.get_writer(anim_file, mode='I') as writer:
-#   filenames = glob.glob('image*.png')
-#   filenames = sorted(filenames)
-#   for filename in filenames:
-#     image = imageio.imread(filename)
-#     writer.append_data(image)
-#   image = imageio.imread(filename)
-#   writer.append_data(image)
+with imageio.get_writer(anim_file, mode='I') as writer:
+  filenames = glob.glob('image*.png')
+  filenames = sorted(filenames)
+  for filename in filenames:
+    image = imageio.imread(filename)
+    writer.append_data(image)
+  image = imageio.imread(filename)
+  writer.append_data(image)
 
-# import tensorflow_docs.vis.embed as embed
-# embed.embed_file(anim_file)
+import tensorflow_docs.vis.embed as embed
+embed.embed_file(anim_file)
 
 
 
