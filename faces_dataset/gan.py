@@ -18,9 +18,6 @@ from IPython import display
 
 all_image_path = []
 
-# full_image_train_path = '../input/celeba-dataset/img_align_celeba/img_align_celeba'
-# When running in Kaggle
-
 full_image_train_path = "C:/School/MinorAI_dataset/img_align_celeba/img_align_celeba/"
 # When running in Local Machine  
 
@@ -29,7 +26,7 @@ for path in os.listdir(full_image_train_path):
   if '.jpg' in path:
     all_image_path.append(os.path.join(full_image_train_path, path))
     
-image_path_50k = all_image_path[0:30000]
+image_path_50k = all_image_path[0:500]
 
 print(len(image_path_50k))
 # print(image_path_50k)
@@ -70,23 +67,26 @@ def generator_model():
   generator.add(LeakyReLU(alpha=0.2))
   generator.add(BatchNormalization())
   generator.add(Conv2DTranspose(3, kernel_size=4, strides=2, padding="same",
-                                  activation='tanh'))
+                                  activation='sigmoid'))
   return generator
 
 generator = generator_model()
 generator.summary()
 
 def discriminator_model():
-  discriminator = Sequential()
-  discriminator.add(Conv2D(64, (3,3), strides=(2, 2), padding='same', input_shape=[64,64, 3]))
-  discriminator.add(LeakyReLU(alpha=0.2))
-  discriminator.add(Dropout(0.4))
-  discriminator.add(Conv2D(64, (3,3), strides=(2, 2), padding='same'))
+  discriminator=Sequential()
+  discriminator.add(Conv2D(32, kernel_size=4, strides=2, padding="same",input_shape=[64,64, 3]))
+  discriminator.add(Conv2D(64, kernel_size=4, strides=2, padding="same"))
+  discriminator.add(LeakyReLU(0.2)) 
   discriminator.add(BatchNormalization())
-  discriminator.add(LeakyReLU(alpha=0.2))  
-  discriminator.add(Dropout(0.4))
+  discriminator.add(Conv2D(128, kernel_size=4, strides=2, padding="same"))
+  discriminator.add(LeakyReLU(0.2))
+  discriminator.add(BatchNormalization())
+  discriminator.add(Conv2D(256, kernel_size=4, strides=2, padding="same"))
+  discriminator.add(LeakyReLU(0.2))
   discriminator.add(Flatten())
-  discriminator.add(Dense(1, activation='tanh'))
+  discriminator.add(Dropout(0.5))
+  discriminator.add(Dense(1,activation='sigmoid'))
   return discriminator
 
 discriminator = discriminator_model()
@@ -107,7 +107,7 @@ GAN.layers
 
 GAN.summary()
 
-epochs = 50
+epochs = 300
 batch_size = 256
 
 loss_from_discriminator_model=[] # Array to collect loss for the discriminator model
@@ -115,86 +115,85 @@ loss_from_discriminator_model=[] # Array to collect loss for the discriminator m
 loss_from_generator_model=[] # Array to collect loss for generator model
 
 with tf.device('/gpu:0'):
- for epoch in range(epochs):
-    print(f"Currently training on Epoch {epoch+1}")
-    
-    # Loop over each batch in the dataset
-    for i in range(training_images.shape[0]//batch_size):
-    # Benefits of Double Division Operator over Single Division Operator in Python
-    # The Double Division operator in Python returns the floor value for both integer and floating-point arguments after division.
-        
-        if (i)%100 == 0:
-            print(f"\tCurrently training on batch number {i} of {len(training_images)//batch_size}")
-        
-        #  Start by sampling a batch of noise vectors from a uniform distribution
-        # generator receives a random seed as input which is used to produce an image.
-        noise=np.random.uniform(-1,1,size=[batch_size, noise_shape])
-        
-        gen_image = generator.predict_on_batch(noise)
-        # We do this by first sampling some random noise from a random uniform distribution, 
-        # then getting the generator’s predictions on the noise. 
-        # The noise variable is the code equivalent of the variable z, which we discussed earlier.
-        
-        # Now I am taking real x_train data
-        # by sampling a batch of real images from the set of all image
-        train_dataset = training_images[i*batch_size:(i+1)*batch_size]
-        
-        # Create Labels
-        # First training on real image
-        train_labels_real=np.ones(shape=(batch_size,1))
-        
-        discriminator.trainable = True
-        
-        #  Next, train the discriminator network on real images and real labels:
-        d_loss_real = discriminator.train_on_batch(train_dataset,train_labels_real)
-        
-        #Now training on fake image
-        train_labels_fake=np.zeros(shape=(batch_size,1))
-        
-        d_loss_fake = discriminator.train_on_batch(gen_image,train_labels_fake)
-        
-        # Creating variables to make ready the whole adversarial network
-        noise=np.random.uniform(-1,1,size=[batch_size,noise_shape])
-        
-        # Image Label vector that has all the values equal to 1
-        # To fool the Discriminator Network
-        train_label_fake_for_gen_training =np.ones(shape=(batch_size,1))
-        
-        discriminator.trainable = False
+    for epoch in range(epochs):   # epoch循环
+        print(f"Epoch：{epoch+1}")
 
-        g_loss = GAN.train_on_batch(noise, train_label_fake_for_gen_training)
         
-        loss_from_discriminator_model.append(d_loss_real+d_loss_fake)
-        
-        loss_from_generator_model.append(g_loss)
-        
-    if epoch % 50 == 0:
-        samples = 10
-        x_fake = generator.predict(np.random.normal(loc=0, scale=1, size=(samples,100)))
+        for i in range(training_images.shape[0]//batch_size):
 
-        for k in range(samples):
-            plt.subplot(2, 5, k+1)
-            plt.imshow(x_fake[k].reshape(64,64,3))
+            if (i)%100 == 0:
+                print(f"\tbatch： {i} of {len(training_images)//batch_size}")
+            
+            noise=np.random.uniform(-1,1,size=[batch_size,noise_shape])
+            
+            gen_image = generator.predict_on_batch(noise)  
+            
+            train_dataset = training_images[i*batch_size:(i+1)*batch_size]
+            
+            train_label=np.ones(shape=(batch_size,1))  
+            discriminator.trainable = True  
+            
+            d_loss1 = discriminator.train_on_batch(train_dataset,train_label)
+
+            
+            train_label=np.zeros(shape=(batch_size,1))  
+            d_loss2 = discriminator.train_on_batch(gen_image,train_label)
+
+            loss_from_discriminator_model.append(d_loss1+d_loss2)    
+            
+            
+            noise=np.random.uniform(-1,1,size=[batch_size,noise_shape])
+            train_label=np.ones(shape=(batch_size,1))  
+            discriminator.trainable = False  
+            
+            
+            g_loss = GAN.train_on_batch(noise, train_label)
+            
+            loss_from_generator_model.append(g_loss)  
+
+
+        if epoch % 5 == 0: 
+            samples = 10
+            x_fake = generator.predict(np.random.normal(loc=0, scale=1, size=(samples,100)))
+
+            for k in range(samples):
+                plt.subplot(2, 5, k+1)  
+                plt.imshow(x_fake[k].reshape(64,64,3))
+                plt.xticks([])
+                plt.yticks([])
+
+
+            plt.tight_layout()
+            plt.savefig('image_at_epoch_{:04d}.png'.format(epoch))
+        print('Epoch: %d,  Loss: D_real = %.3f, D_fake = %.3f,  G = %.3f' %   (epoch+1, d_loss1, d_loss2, g_loss))
+
+for i in range(5):
+    plt.figure(figsize=(7,7))   
+    for k in range(20):
+            noise=np.random.uniform(-1,1,size=[100,noise_shape])
+            new_img=generator.predict(noise)   
+            plt.subplot(5, 4, k+1)
+            plt.imshow(new_img[k].reshape(64,64,3))  
             plt.xticks([])
             plt.yticks([])
-
-        
-        plt.tight_layout()
-        plt.show()
-    print('Epoch: %d,  Loss: D_real = %.3f, D_fake = %.3f,  G = %.3f' %   (epoch+1, d_loss_real, d_loss_fake, g_loss))        
-
-print('Training completed with all epochs')
-
-for k in range(20):
-          noise=np.random.uniform(-1,1,size=[100,noise_shape])
-          im=generator.predict(noise) 
-          plt.subplot(5, 4, k+1)
-          plt.imshow(im[k].reshape(64,64,3))
-          plt.xticks([])
-          plt.yticks([])
  
-plt.tight_layout()
-plt.show()
+    plt.tight_layout()
+    plt.savefig('last images')
+    plt.show()
+
+anim_file = 'dcgan.gif'
+
+with imageio.get_writer(anim_file, mode='I') as writer:
+  filenames = glob.glob('image*.png')
+  filenames = sorted(filenames)
+  for filename in filenames:
+    image = imageio.imread(filename)
+    writer.append_data(image)
+  image = imageio.imread(filename)
+  writer.append_data(image)
+
+import tensorflow_docs.vis.embed as embed
+embed.embed_file(anim_file)        
 
 
 
