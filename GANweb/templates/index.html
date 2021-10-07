@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Home page{% endblock %}
+
+{% block content %}
+<h1>GAN demonstrator</h1>
+<div class="form-group">
+    <label for="inputNumber">Voer een nummer in. Dit nummer wordt middels GAN en de MNIST dataset gegenereerd in de vorm van een afbeelding.</label>
+    
+    <input type="number" class="form-control" id="inputNumber" placeholder="Nummer">
+  </div>
+<button type="submit" class="btn btn-primary">OK</button>
+<div>
+    <img src="/images/dcgan.gif" alt="DCGAN gif">
+</div>
+{% endblock %}
