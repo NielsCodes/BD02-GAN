@@ -3,13 +3,17 @@ from flask import Flask, redirect, url_for, render_template, request
 
 app = Flask(__name__)
 
-@app.route("/home")
+@app.route("/")
 def home():
     return render_template("index.html")
 
-@app.route("/about")
-def about():
-    return render_template("about.html")
+@app.route("/aboutus")
+def aboutus():
+    return render_template("aboutus.html")
+
+@app.route("/aboutgan")
+def aboutgan():
+    return render_template("aboutgan.html")
 
 @app.errorhandler(404)
 def page_not_found(e):
