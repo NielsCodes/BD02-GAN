@@ -1,6 +1,21 @@
 {% extends "base.html" %}
-{% block title %}About page{% endblock %}
+{% block title %}Uitleg GAN{% endblock %}
 
 {% block content %}
-<h1>Over GAN</h1>
+<h1>Uitleg GAN</h1>
+<h2>Wat is een GAN?</h2>
+<p>GAN staat voor Generative Adversarial Network. Een GAN is een generatief model, waar twee netwerken met elkaar concurreren.</p>
+<p>Het eerste netwerk is de generator, die een sample genereert. De tegenstander, ook wel de discriminator, probeert te detecteren of de gegenereerde sample echt of nep is.</p>
+
+<h3>Discriminator</h3>
+<p>De rol van de discriminator is om beslissingen te maken over data. De discriminator beslist of de data echt of nep is. Om deze beslissingen te kunnen maken, moet de discriminator getrained worden.</p>
+
+<h3>Generator</h3>
+<p>De rol van de generator is om input te creëren, waarvan de discriminator denkt dat die thuishoort in de oorspronkelijke dataset. De generator liegt als het ware tegen de discriminator door nieuwe input te maken die niet in de dataset hoort, maar die wel aan de criteria voldoet.</p>
+
+<p>De twee neurale netwerken (discriminator en generator) spelen dus als het ware een spel tegen elkaar, en werken tevens ook tegelijkertijd.</p>
+
+<h3>Resultaten</h3>
+<p>Onderstaand is het proces te zien van een GAN netwerk met de MNIST dataset.</p>
+<img src="{{url_for('static', filename='mnistgif.gif')}}" alt="mnistgif">
 {% endblock %}
