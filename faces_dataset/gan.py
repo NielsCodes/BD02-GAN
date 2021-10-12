@@ -108,7 +108,7 @@ GAN.layers
 GAN.summary()
 
 epochs = 300
-batch_size = 256
+batch_size = 128
 
 loss_from_discriminator_model=[] # Array to collect loss for the discriminator model
 
