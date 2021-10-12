@@ -1,5 +1,6 @@
 from typing import Text
-from flask import Flask, redirect, url_for, render_template, request
+from flask import Flask, redirect, url_for, render_template, request, jsonify
+
 
 app = Flask(__name__)
 
@@ -12,7 +13,13 @@ def home():
 @app.route("/", methods=["POST"])
 def home_post():
     input = request.form.get("input")
-    return render_template("index.html", forward_message=input)
+    if(input != ""):
+        return jsonify(input)
+        #return render_template("index.html", forward_message=input)
+
+    else:
+        return render_template("index.html")
+
 
 #About us page
 @app.route("/aboutus")
