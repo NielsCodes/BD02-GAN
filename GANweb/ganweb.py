@@ -1,8 +1,13 @@
 from typing import Text
 from flask import Flask, redirect, url_for, render_template, request, jsonify
+from flask.wrappers import Response
+from flask_restful import Resource
+import requests
 
 
 app = Flask(__name__)
+
+BASE = "http://127.0.0.1:8000/"
 
 #Homepage
 @app.route("/")
@@ -14,8 +19,8 @@ def home():
 def home_post():
     input = request.form.get("input")
     if(input != ""):
-        return jsonify(input)
-        #return render_template("index.html", forward_message=input)
+        response = requests.put(BASE + "put", {"Input": input})
+        return render_template("index.html", forward_message = response.json())
 
     else:
         return render_template("index.html")
