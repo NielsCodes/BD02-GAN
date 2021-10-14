@@ -9,13 +9,13 @@ BASE = "http://127.0.0.1:5000/"
 
 
 class InputPut(Resource):
-    def put(self):
+    def post(self):
         print(request.form["Input"])
         userInput = request.form["Input"]
         return {"Value": userInput}
 
 
-api.add_resource(InputPut, "/put")
+api.add_resource(InputPut, "/mnistpost")
 
 
 if __name__ == "__main__":

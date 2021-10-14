@@ -19,7 +19,7 @@ def home():
 def home_post():
     input = request.form.get("input")
     if(input != ""):
-        response = requests.put(BASE + "put", {"Input": input})
+        response = requests.post(BASE + "mnistpost", {"Input": input})
         return render_template("index.html", forward_message = response.json())
 
     else:
