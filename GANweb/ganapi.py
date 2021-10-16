@@ -10,8 +10,8 @@ BASE = "http://127.0.0.1:5000/"
 
 class InputPut(Resource):
     def post(self):
-        print(request.form["Input"])
-        userInput = request.form["Input"]
+        print(request.form["Value"])
+        userInput = request.form["Value"]
         return {"Value": userInput}
 
 

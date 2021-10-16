@@ -20,11 +20,12 @@ def home_post():
     input = request.form.get("input")
     if(input != ""):
         # SEND data to API
-        response = requests.post(BASE + "mnistpost", {'Value': input})
-        response = response.json()
-        #response = {'Value': "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="}
+        #response = requests.post(BASE + "mnistpost", {'Value': input})
+        #response = response.json()
+        response = {'Value': "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="}
         
         # RECEIVE base64 image from API (and store it in the page)
+        #return render_template("index.html", forward_message = response.json())
         return render_template("index.html", forward_message = response.get('Value'))
 
     else:
