@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 ENV = os.environ['ENV'];
 if ENV == 'prod':
-  BASE = "https://gan-dev.apis.niels.codes"
+  BASE = "https://gan-dev.apis.niels.codes/"
 else:
   BASE = "http://127.0.0.1:8000/"
 
