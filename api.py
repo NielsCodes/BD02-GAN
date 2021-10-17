@@ -10,8 +10,6 @@ from cgan_mnist import send_file
 app = Flask(__name__)
 api = Api(app)
 
-BASE = "http://127.0.0.1:5000/"
-
 def split_string(string): 
   return list(string)
 
@@ -41,6 +39,7 @@ def handle_request(value):
   # split input string into characters
   chars = split_string(value)
 
+  # Array storing all individual digit generated image paths
   paths = []
 
   # convert character to int and use it to generate an image
@@ -53,26 +52,28 @@ def handle_request(value):
   # merge images
   merged_img_path = merge_images(paths)
 
+  # remove individual digit images
   for path in paths:
     os.remove(path)
 
+  # turn merged output image into Base64 string
   with open(merged_img_path, 'rb') as merged_img:
     encoded_img_bytes = base64.b64encode(merged_img.read())
     encoded_img_string = encoded_img_bytes.decode('utf-8')
 
+  # remove output image file
   os.remove(merged_img_path)
 
   return encoded_img_string
 
 
-
-class InputPut(Resource):
+class MnistHandler(Resource):
     def post(self):
         userInput = request.form["Value"]
         encoded_output_img = handle_request(userInput)
         return {"Value": encoded_output_img}
 
-api.add_resource(InputPut, "/mnistpost")
+api.add_resource(MnistHandler, "/mnist")
 
 if __name__ == "__main__":
-    app.run(debug=True,port=8000)
+    app.run(debug=True,port=8080, host="0.0.0.0")
