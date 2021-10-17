@@ -27,12 +27,12 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.datasets import mnist
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import load_model
-from keras.layers import Input, Flatten, Embedding, multiply, Dropout
 
 import numpy as np
 import math
 import matplotlib.pyplot as plt
 import os
+import argparse
 import uuid
 
 
@@ -55,8 +55,6 @@ def build_generator(inputs, labels, image_size):
     kernel_size = 5
     layer_filters = [128, 64, 32, 1]
 
-    
-
     x = concatenate([inputs, labels], axis=1)
     x = Dense(image_resize * image_resize * layer_filters[0])(x)
     x = Reshape((image_resize, image_resize, layer_filters[0]))(x)
@@ -78,7 +76,6 @@ def build_generator(inputs, labels, image_size):
     x = Activation('sigmoid')(x)
     # input is conditioned by labels
     generator = Model([inputs, labels], x, name='generator')
-
     return generator
 
 
@@ -124,8 +121,6 @@ def build_discriminator(inputs, labels, image_size):
     # input is conditioned by labels
     discriminator = Model([inputs, labels], x, name='discriminator')
     return discriminator
-
-
 
 
 def train(models, data, params):
@@ -322,7 +317,7 @@ def build_and_train_models():
     # the latent or z vector is 100-dim
     latent_size = 100
     batch_size = 64
-    train_steps = 500
+    train_steps = 40000
     lr = 2e-4
     decay = 6e-8
     input_shape = (image_size, image_size, 1)
@@ -419,6 +414,6 @@ def send_file(class_label):
     return plot_images_end(generator,
                 noise_input=noise_input,
                 noise_class=noise_class,
-                show=True,
+                show=False,
                 step=step,
                 model_name="label_image")
