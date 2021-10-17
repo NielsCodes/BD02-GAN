@@ -1,0 +1,28 @@
+version: "3"                        # Versie van de docker-compose specificatie. Grotendeels zijn alle versies hetzelfde, maar er zijn wat kleine verschillen. Let hier op in de documentatie
+services:                           # De containers die we willen starten
+  serv:                             # Naam van de container
+    build: ./BD02-GAN-gan_backend/              # Build de container op basis van Dockerfile in de gespecificeerde folder
+    ports:                          # Hetzelfde als `-p` optie in `docker run`
+      - "9001:5000"
+  #  environment:                    # Hetzelfde als `-e` optie in `docker run`
+   #   MESSAGE: "Some message from envs in docker-compose file"
+    networks:                       # Van welke networks is deze container lid. Networks worden gebruikt om communicatie tussen container mogelijk te maken
+      - demonet
+  front:
+    #build: ./front/
+    build: ./BD02-GAN-frontend/GANweb/
+    ports:
+      #- "9002:5000"
+      - "8001:5000"
+    links:                          # Met welke andere containers moet deze container verbounden worden
+      - "serv:BD02-GAN-gan_backend"             # in vorm van `<container>:<identifier>`
+   # environment:
+   #   SERV_URL: http://service1:5000    # Link `service1` wordt hier gebruikt in een environment variable
+    depends_on:                     # Deze container wacht met opstarten tot dat de onderstaande containers gestart zijn
+      - serv
+    networks:
+      - demonet
+  #  volumes:                        # Hetzelfde als `-v` optie in `docker run`
+    #  - "./files:/usr/src/app/files"
+networks:                           # Definitie van networks
+  demonet:
