@@ -3,11 +3,15 @@ from flask import Flask, redirect, url_for, render_template, request, jsonify
 from flask.wrappers import Response
 from flask_restful import Resource
 import requests
-
+import os
 
 app = Flask(__name__)
 
-BASE = "http://127.0.0.1:8000/"
+ENV = os.environ['ENV'];
+if ENV == 'prod':
+  BASE = "https://gan-dev.apis.niels.codes"
+else:
+  BASE = "http://127.0.0.1:8000/"
 
 #Homepage
 @app.route("/")
@@ -20,9 +24,8 @@ def home_post():
     input = request.form.get("input")
     if(input != ""):
         # SEND data to API
-        response = requests.post(BASE + "mnistpost", {'Value': input})
+        response = requests.post(BASE + "mnist", {'Value': input})
         response = response.json()
-        #response = {'Value': "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="}
         
         # RECEIVE base64 image from API (and store it in the page)
         #return render_template("index.html", forward_message = response.json())
@@ -54,4 +57,4 @@ def internal_server_error(e):
 
 #In production: get rid of debug=True
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=8080)

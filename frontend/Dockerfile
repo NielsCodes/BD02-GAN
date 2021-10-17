@@ -19,10 +19,10 @@ RUN pip install -r requirements.txt
 RUN pip install gunicorn
 
 # Expose deze poorten
-EXPOSE 80
+EXPOSE 8080
 
 # Kopieer de applicatie naar de container
 COPY . .
 
 # Run het entrypoint script
-CMD ["gunicorn", "-b", "0.0.0.0:80", "ganweb:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:8080", "ganweb:app"]
