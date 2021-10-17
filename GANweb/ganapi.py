@@ -5,8 +5,6 @@ import requests
 app = Flask(__name__)
 api = Api(app)
 
-BASE = "http://127.0.0.1:5000/"
-
 
 class InputPut(Resource):
     def post(self):
