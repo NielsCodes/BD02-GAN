@@ -34,9 +34,7 @@ import math
 import matplotlib.pyplot as plt
 import os
 import argparse
-
-import tensorflow as tf
-from tensorflow.keras import layers
+import uuid
 
 
 def build_generator(inputs, labels, image_size):
@@ -287,7 +285,7 @@ def plot_images_end(generator,
         model_name (string): Model name
     """
     os.makedirs(model_name, exist_ok=True)
-    filename = os.path.join(model_name, "generated_image.png")
+    filename = os.path.join(model_name, str(uuid.uuid4()) + ".png")
     images = generator.predict([noise_input, noise_class])
     print(model_name , " labels for generated images: ", np.argmax(noise_class, axis=1))
     plt.figure(figsize=(2.2, 2.2))
