@@ -74,7 +74,7 @@ class MnistHandler(Resource):
           - verifies requested string does not exceed max length (10 digits)
           - verifies requested string does not contain non-digits using Regular Expression 
         """
-        user_input = request.form["Value"]
+        user_input = request.form["value"]
 
         if len(user_input) > 10:
           abort(400, message='Request too long. Max 10 digits.')
@@ -84,7 +84,10 @@ class MnistHandler(Resource):
           abort(400, message='Request invalid. Should only contain digits (0-9).')
 
         encoded_output_img = handle_mnist_gen_request(user_input)
-        return {"Value": encoded_output_img}
+        return {
+          'message': 'Image generated successfully',
+          'img': encoded_output_img,
+          }
 
 api.add_resource(MnistHandler, "/mnist")
 

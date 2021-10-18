@@ -24,11 +24,11 @@ def home_post():
     input = request.form.get("input")
     if(input != "" and len(input) <= 10):
         # SEND data to API
-        response = requests.post(BASE + "mnist", {'Value': input})
+        response = requests.post(BASE + "mnist", {'value': input})
         response = response.json()
         
         # RECEIVE base64 image from API (and store it in the page)
-        return render_template("index.html", forward_message = response.get('Value'))
+        return render_template("index.html", encoded_img_string = response.get('img'))
 
     else:
         return render_template("index.html")
