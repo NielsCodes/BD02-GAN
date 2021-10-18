@@ -7,7 +7,8 @@ import os
 
 app = Flask(__name__)
 
-ENV = os.environ['ENV'];
+# Get environment from env variables, but set default to dev
+ENV = os.getenv('ENV', 'dev')
 if ENV == 'prod':
   BASE = "https://gan-dev.apis.niels.codes/"
 else:
