@@ -9,10 +9,9 @@ app = Flask(__name__)
 
 # Get environment from env variables, but set default to dev
 ENV = os.getenv('ENV', 'dev')
-if ENV == 'prod':
-  BASE = "https://gan-dev.apis.niels.codes/"
-else:
-  BASE = "http://127.0.0.1:8000/"
+SERV_URL = os.getenv('SERV_URL', 'https://gan-dev.apis.niels.codes/')
+
+BASE = SERV_URL
 
 #Homepage
 @app.route("/")
