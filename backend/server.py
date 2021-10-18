@@ -1,9 +1,10 @@
-from flask import Flask, request
-from flask_restful import Api, Resource, abort
-from PIL import Image
-import os
-import uuid
-import base64
+from flask import Flask, request                # Flask for API framework
+from flask_restful import Api, Resource, abort  # Flask for API framework
+from PIL import Image                          # PIL (Pillow in requirements.txt) for image manipulation (merging multiple images into one)
+import os                                      # Used for file system interaction
+import uuid                                    # Used to generate Universial Unique IDs for generated image to prevent multiple requests using the same filename
+import base64                                  # Used to encode generated image as Base64 string to send to frontend client
+import re                                      # Used for Regular Expression matching of request strings
 
 from cgan_mnist import send_file
 
