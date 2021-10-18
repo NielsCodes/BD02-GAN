@@ -34,9 +34,7 @@ def merge_images(images):
   return output_path
 
 
-def handle_request(value):
-  # TODO: Add error handling
-
+def handle_mnist_gen_request(value):
   # split input string into characters
   chars = split_string(value)
 
@@ -76,16 +74,16 @@ class MnistHandler(Resource):
           - verifies requested string does not exceed max length (10 digits)
           - verifies requested string does not contain non-digits using Regular Expression 
         """
-        userInput = request.form["Value"]
+        user_input = request.form["Value"]
 
-        if len(userInput) > 10:
+        if len(user_input) > 10:
           abort(400, message='Request too long. Max 10 digits.')
         
-        non_digit_matches = re.search(r"\D", userInput)
+        non_digit_matches = re.search(r"\D", user_input)
         if non_digit_matches is not None:
           abort(400, message='Request invalid. Should only contain digits (0-9).')
 
-        encoded_output_img = handle_mnist_gen_request(userInput)
+        encoded_output_img = handle_mnist_gen_request(user_input)
         return {"Value": encoded_output_img}
 
 api.add_resource(MnistHandler, "/mnist")
