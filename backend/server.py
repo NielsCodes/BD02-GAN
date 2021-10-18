@@ -69,11 +69,23 @@ def handle_request(value):
 
 
 class MnistHandler(Resource):
+    """Request handler class to handle all MNIST dataset related requests"""
     def post(self):
+        """Request handler for MNIST generation POST requests
+
+          - verifies requested string does not exceed max length (10 digits)
+          - verifies requested string does not contain non-digits using Regular Expression 
+        """
         userInput = request.form["Value"]
+
         if len(userInput) > 10:
           abort(400, message='Request too long. Max 10 digits.')
-        encoded_output_img = handle_request(userInput)
+        
+        non_digit_matches = re.search(r"\D", userInput)
+        if non_digit_matches is not None:
+          abort(400, message='Request invalid. Should only contain digits (0-9).')
+
+        encoded_output_img = handle_mnist_gen_request(userInput)
         return {"Value": encoded_output_img}
 
 api.add_resource(MnistHandler, "/mnist")
