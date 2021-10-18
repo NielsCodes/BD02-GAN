@@ -29,7 +29,6 @@ def home_post():
         response = response.json()
         
         # RECEIVE base64 image from API (and store it in the page)
-        #return render_template("index.html", forward_message = response.json())
         return render_template("index.html", forward_message = response.get('Value'))
 
     else:
