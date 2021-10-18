@@ -25,4 +25,4 @@ EXPOSE 8080
 COPY . .
 
 # Run het entrypoint script
-CMD ["gunicorn", "-b", "0.0.0.0:8080", "ganweb:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:8080", "client:app"]
