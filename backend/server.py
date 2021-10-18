@@ -12,9 +12,15 @@ app = Flask(__name__)
 api = Api(app)
 
 def split_string(string): 
+  """Splits input string into list of characters"""
   return list(string)
 
-def merge_images(images):
+def merge_images(images) -> str:
+  """ Merge images
+
+      - Creates new image with 220 by 220 * number of images as dimensions
+      - Pastes individual digit images into output image
+  """
   image_count = len(images)
   image_dimension = 220
   height = image_dimension
@@ -34,8 +40,16 @@ def merge_images(images):
   return output_path
 
 
-def handle_mnist_gen_request(value):
-  # split input string into characters
+def handle_mnist_gen_request(value) -> str:
+  """Handle MNIST generation request
+
+    - Splits input string into individual digits
+    - Calls Generator model with digit to generate single digit image (each image gets a UUID)
+    - Calls merge_images to merge all images into one
+    - Removes single digit images
+    - Converts merged image to Base64 string representation to send to frontend client
+    - Removes merged image file
+  """
   chars = split_string(value)
 
   # Array storing all individual digit generated image paths
@@ -55,12 +69,11 @@ def handle_mnist_gen_request(value):
   for path in paths:
     os.remove(path)
 
-  # turn merged output image into Base64 string
+  # turn merged output image into Base64 string representation
   with open(merged_img_path, 'rb') as merged_img:
     encoded_img_bytes = base64.b64encode(merged_img.read())
     encoded_img_string = encoded_img_bytes.decode('utf-8')
 
-  # remove output image file
   os.remove(merged_img_path)
 
   return encoded_img_string
@@ -71,8 +84,8 @@ class MnistHandler(Resource):
     def post(self):
         """Request handler for MNIST generation POST requests
 
-          - verifies requested string does not exceed max length (10 digits)
-          - verifies requested string does not contain non-digits using Regular Expression 
+          - Verifies requested string does not exceed max length (10 digits)
+          - Verifies requested string does not contain non-digits using Regular Expression 
         """
         user_input = request.form["value"]
 
