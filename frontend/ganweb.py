@@ -23,7 +23,7 @@ def home():
 @app.route("/", methods=["POST"])
 def home_post():
     input = request.form.get("input")
-    if(input != ""):
+    if(input != "" and len(input) <= 10):
         # SEND data to API
         response = requests.post(BASE + "mnist", {'Value': input})
         response = response.json()
