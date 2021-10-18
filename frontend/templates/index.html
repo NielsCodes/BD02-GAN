@@ -10,11 +10,11 @@
     <input type="number" min="0" minlength="1" maxlength="10" class="form-control" name="input" placeholder="Getal">
   </div>
 
-  <button type="submit" class="btn btn-primary">OK</button>
+  <button type="submit" class="btn btn-primary" onclick="$('#loading').show();">OK</button>
 </form>
 
 <br>
-
+<div id="loading" style="display:none;"><img src="{{url_for('static', filename='loading.gif')}}" alt="" style="width: 40%"/></div>
 <div>
   <img src="data:image/png;base64,{{ forward_message }}" id="ganimg" onerror="this.style.display='none'" alt="Generated digit images" style="width: 100%">
 </div>
