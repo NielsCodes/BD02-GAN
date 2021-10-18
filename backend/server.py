@@ -70,7 +70,7 @@ def handle_request(value):
 class MnistHandler(Resource):
     def post(self):
         userInput = request.form["Value"]
-        if len(userInput) >= 10:
+        if len(userInput) > 10:
           abort(400, message='Request too long. Max 10 digits.')
         encoded_output_img = handle_request(userInput)
         return {"Value": encoded_output_img}
