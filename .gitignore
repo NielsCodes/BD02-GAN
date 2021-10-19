@@ -1,7 +1,7 @@
-.DS_Store
+*.DS_Store
 
 # Portable Network Graphics
-*.png
+# *.png
 
 # Graphics Interchange Format
 # *.gif
