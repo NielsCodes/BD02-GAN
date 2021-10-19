@@ -16,6 +16,7 @@
   }
 
   function showLoader() {
+    $('#output-container').hide();
     $('#loading').show();
   }
 </script>
@@ -33,7 +34,7 @@
 <div id="loading" style="display:none;">
   <img src="static/loaders/loading_1.gif" alt="Loading image" style="width: 40%"/>
 </div>
-<div>
+<div id="output-container">
   <img src="data:image/png;base64,{{ encoded_img_string }}" id="ganimg" onerror="this.style.display='none'" alt="Generated digit images" style="width: 100%">
 </div>
 {% endblock %}
