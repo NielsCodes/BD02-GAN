@@ -4,7 +4,7 @@
 *.png
 
 # Graphics Interchange Format
-*.gif
+# *.gif
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
