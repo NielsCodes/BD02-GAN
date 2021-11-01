@@ -16,6 +16,7 @@
   }
 
   function showLoader() {
+    $('#number-container').hide();
     $('#output-container').hide();
     $('#loading').show();
   }
@@ -24,13 +25,16 @@
 <form method="post">
   <div class="form-group">
     <label for="inputNumber">Voer een positief getal in van maximaal 10 cijfers. Dit getal wordt middels GAN en de MNIST dataset gegenereerd in de vorm van een afbeelding.</label>
-    <input type="number" min="0" minlength="1" maxlength="10" class="form-control" name="input" placeholder="Getal">
+    <input type="number" min="0" max="999999999" minlength="1" class="form-control" name="input" placeholder="Getal">
   </div>
 
   <button type="submit" class="btn btn-primary" onclick="showLoader()">Generate</button>
 </form>
 
 <br>
+<div id="number-container">
+  <label>{{forward_message}}</label>
+</div>
 <div id="loading" style="display:none;">
   <img src="static/loaders/loading_1.gif" alt="Loading image" style="width: 40%"/>
 </div>
