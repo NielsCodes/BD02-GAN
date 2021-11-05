@@ -8,7 +8,7 @@
         
         <title>{% block title %}{% endblock %}</title>
 
-        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="author" content="Niels Kersic, Rade Grbic, Dimitri Batchev, Wilbert van de Westerlo">
@@ -19,7 +19,7 @@
     </head>
     <body>
         <header>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-red">
                 <a class="navbar-brand" href="/">GANweb</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
@@ -46,16 +46,16 @@
             {% endblock %}
         </main>
 
-        <footer class="bg-light">
-            <div class="row text-center navbar fixed-bottom">
+        <footer>
+            <div class="row text-center navbar fixed-bottom bg-red" id="sticky-footer">
                 <div class="col-md-4">
-                    <p style="color: gray;">Casusgroep 3 - GAN demonstrator</p>
+                    <p>Casusgroep 3 - GAN demonstrator</p>
                 </div>
                 <div class="col-md-4">
                     
                 </div>
                 <div class="col-md-4">
-                    <p style="color: gray;">N. Kersic, R. Grbic, W. v.d. Westerlo, D. Batchev</p>
+                    <p>N. Kersic, R. Grbic, W. v.d. Westerlo, D. Batchev</p>
                 </div>
             </div>
         </footer>
