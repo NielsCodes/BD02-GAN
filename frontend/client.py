@@ -10,8 +10,8 @@ app = Flask(__name__)
 
 # Get environment from env variables, but set default to dev
 ENV = os.getenv('ENV', 'dev')
-# SERV_URL = os.getenv('SERV_URL', 'https://gan-dev.apis.niels.codes/')
-SERV_URL = os.getenv('SERV_URL', 'https://127.0.0.1/')
+SERV_URL = os.getenv('SERV_URL', 'https://gan-dev.apis.niels.codes/')
+
 
 BASE = SERV_URL
 
@@ -56,6 +56,6 @@ def page_not_found(e):
 def internal_server_error(e):
     return render_template("500.html"), 500    
 
-#In production: get rid of debug=True
+#To do: In production: get rid of debug=True
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=8080)
