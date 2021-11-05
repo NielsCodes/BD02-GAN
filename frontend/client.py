@@ -10,7 +10,8 @@ app = Flask(__name__)
 
 # Get environment from env variables, but set default to dev
 ENV = os.getenv('ENV', 'dev')
-SERV_URL = os.getenv('SERV_URL', 'https://gan-dev.apis.niels.codes/')
+# SERV_URL = os.getenv('SERV_URL', 'https://gan-dev.apis.niels.codes/')
+SERV_URL = os.getenv('SERV_URL', 'https://127.0.0.1/')
 
 BASE = SERV_URL
 
