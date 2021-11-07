@@ -309,9 +309,6 @@ def test_generator(generator, class_label=None):
                 step=step,
                 model_name="test_outputs")
 
-def start_training():
-    build_and_train_models()
-
 def send_file(class_label):
     generator = load_model('cgan_mnist.h5')
     noise_input = np.random.uniform(-1.0, 1.0, size=[num_images_to_generate, 100])
