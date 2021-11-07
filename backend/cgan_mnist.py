@@ -208,6 +208,7 @@ def plot_images_end(generator,
                 model_name="gan"):
 
     os.makedirs(model_name, exist_ok=True)
+    # UUID is used for universally unique file names to prevent issues during concurrent request handling
     filename = os.path.join(model_name, str(uuid.uuid4()) + ".png")
     images = generator.predict([noise_input, noise_class])
     print(model_name , " labels for generated images: ", np.argmax(noise_class, axis=1))
