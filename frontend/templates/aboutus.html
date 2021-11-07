@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Over ons{% endblock %}
+
+{% block content %}
+<h1>Over ons</h1>
+<div class="row text-center">
+    <div class="card" style="width: 12rem;">
+        <a href="https://linkedin.com/in/nielskersic" target="_blank">
+          <img class="card-img-top" src="{{url_for('static', filename='niels.jpg')}}" alt="Profile picture Niels Kersic">
+        </a>
+        <div class="card-body">
+          <h5 class="card-title">Niels Kersic</h5>
+          <p class="card-text">Software Development student</p>
+        </div>
+      </div>
+
+      <div class="card" style="width: 12rem;">
+        <a href="https://www.linkedin.com/in/rade-grbic-0160bb172/" target="_blank">
+          <img class="card-img-top" src="{{url_for('static', filename='rade.jpg')}}" alt="Profile picture Rade Grbic">
+        </a>
+        <div class="card-body">
+          <h5 class="card-title">Rade Grbic</h5>
+          <p class="card-text">Software Development student</p>
+        </div>
+      </div>
+
+      <div class="card" style="width: 12rem;">
+        <img class="card-img-top" src="{{url_for('static', filename='wilbert.jpg')}}" alt="Profile picture Wilbert vd Westerlo">
+        <div class="card-body">
+          <h5 class="card-title">Wilbert van de Westerlo</h5>
+          <p class="card-text">Software Development student</p>          
+        </div>
+      </div>
+
+      <div class="card" style="width: 12rem;">
+        <a href="https://www.linkedin.com/in/dimitri-batchev/"  target="_blank">
+          <img class="card-img-top" src="{{url_for('static', filename='dimitri.jpg')}}" alt="Profile picture Dimitri Batchev">
+        </a>
+        <div class="card-body">
+          <h5 class="card-title">Dimitri Batchev</h5>
+          <p class="card-text">Software Development student</p>
+        </div>
+      </div>
+</div>
+<br />
+<h5>Klik op een foto voor meer informatie</h5>
+{% endblock %}

@@ -1,0 +1,22 @@
+version: "3"                            # Versie van de docker-compose specificatie. Grotendeels zijn alle versies hetzelfde, maar er zijn wat kleine verschillen. Let hier op in de documentatie
+services:                               # De containers die we willen starten
+  server:                               # Naam van de container
+    build: ./backend/                   # Build de container op basis van Dockerfile in de gespecificeerde folder
+    ports:                              # Hetzelfde als `-p` optie in `docker run`
+      - "8080:8080"
+    networks:                           # Van welke networks is deze container lid. Networks worden gebruikt om communicatie tussen container mogelijk te maken
+      - gan-net
+  client:
+    build: ./frontend/
+    ports:
+      - "80:8080"
+    links:                              # Met welke andere containers moet deze container verbonden worden
+      - "server:server"                 # in vorm van `<container>:<identifier>`
+    environment:
+      SERV_URL: http://server:8080/     # Link `server` wordt hier gebruikt in een environment variable
+    depends_on:                         # Deze container wacht met opstarten tot dat de onderstaande containers gestart zijn
+      - server
+    networks:
+      - gan-net
+networks:                               # Definitie van networks
+  gan-net:

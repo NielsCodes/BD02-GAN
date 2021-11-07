@@ -1,0 +1,18 @@
+.bg-red {
+  background: #EE1A34;
+}
+
+.btn-red {
+  background: #EE1A34;
+  border-color: #EE1A34;
+  color: #FFF;
+}
+
+.btn-red:hover {
+  background: #F25366;
+  color: #FFF;
+}
+
+#sticky-footer {
+  color: #FFF !important;
+}

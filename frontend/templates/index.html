@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}GAN Demonstrator{% endblock %}
+
+{% block content %}
+<h1>GAN demonstrator</h1>
+
+<script type="text/javascript">
+  $(document).ready(() => {
+    randomizeLoader();
+  })
+
+  function randomizeLoader() {
+    randomId = Math.floor(Math.random() * 5 + 1) // random number between 1 and 6
+    randomizedSource = `static/loaders/loading_${randomId}.gif`;
+    $('#loading img').attr('src', randomizedSource)
+  }
+
+  function showLoader() {
+    $('#number-container').hide();
+    $('#output-container').hide();
+    $('#loading').show();
+  }
+</script>
+
+<form method="post">
+  <div class="form-group">
+    <label for="inputNumber">Voer een positief getal in van maximaal 10 cijfers. Dit getal wordt middels GAN en de MNIST dataset gegenereerd in de vorm van een afbeelding.</label>
+    <input type="number" min="0" max="999999999" minlength="1" class="form-control" name="input" placeholder="Getal">
+  </div>
+
+  <button type="submit" class="btn btn-red" onclick="showLoader()">Genereer</button>
+</form>
+
+<br>
+<div id="number-container">
+  <label>{{forward_message}}</label>
+</div>
+<div id="loading" style="display:none;">
+  <img src="static/loaders/loading_1.gif" alt="Loading image" style="width: 40%"/>
+</div>
+<div id="output-container">
+  <img src="data:image/png;base64,{{ encoded_img_string }}" id="ganimg" onerror="this.style.display='none'" alt="Generated digit images" style="width: 100%">
+</div>
+{% endblock %}
