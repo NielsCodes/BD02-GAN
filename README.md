@@ -1,4 +1,4 @@
-# GAN-Demonstrator
+# GAN Demonstrator
 Door Dimitri Batchev, Rade Grbić, Niels Kersic & Wilbert van de Westerlo.
 
 # 1. Achtergrond
