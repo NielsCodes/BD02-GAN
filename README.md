@@ -84,6 +84,7 @@ Met het volgende commando kan de gehele applicatie worden gestart:
 ```
 docker compose up -d
 ```
+De client is nu verbonden met poort 80 op de host. Omdat dit de standaard poort is voor http, kan de client in de browser worden geopend via de URL `localhost`.
 
 Wanneer er wijzigingen aan de front- of backend zijn doorgevoerd en de Docker containers moeten worden geüpdatet, kan dat met de volgende commandos respectievelijk:
 ```
