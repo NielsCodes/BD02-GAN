@@ -54,7 +54,7 @@ De backend kan op meerdere manieren lokaal worden gerund. De simpelste manier is
 python3 server.py
 ```
 
-De backend kan ook in Docker worden gestart. Hiervoor moet eerst een image worden gebuild met het bijgevoegde `Dockerfile` bestand. Natuurlijk moet Docker eerst zijn geïnstalleerd en actief zijn op de host computer. Het builden van de image kan met het volgende commando:
+De backend kan ook in Docker worden gestart. Hiervoor moet eerst een image worden gebuild met het bijgevoegde `Dockerfile` bestand. Natuurlijk moet Docker eerst zijn geïnstalleerd en actief zijn op de host computer. Het builden van de image kan met het volgende commando in de `backend` folder:
 ```
 docker build -t gan-backend .
 ```
@@ -65,12 +65,12 @@ docker run -dp 8080:8080 gan-backend
 De server luist naar verkeer op `localhost:8080`. Indien een andere lokale poort gewenst is, misschien omdat een andere applicatie al gebruikmaakt van poort 8080, kan `8080:8080` worden vervangen door `[gewenste poort]:8080`. Het tweede deel van deze port mapping moet wél altijd `8080` zijn, omdat de Flask RESTful server intern altijd naar poort 8080 zal luisteren. Meer informatie hierover is te vinden in de [Docker docs](https://docs.docker.com/config/containers/container-networking/). De naam van de image, in dit geval `gan-backend`, kan ook worden gewijzigd, zolang dezelfde naam wordt gebruikt tijdens het builden van de image en het starten van deze image.
 
 ## 3.2 Frontend
-De frontend kan, net zoals de backend, zonder Docker worden gerund. Hiervoor moet Flask geïnstalleerd zijn. Vervolgens kan de applicatie op de volgende manier worden gestart:
+De frontend kan, net zoals de backend, zonder Docker worden gerund. Hiervoor moet Flask geïnstalleerd zijn. Vervolgens kan de applicatie op de volgende manier worden gestart in de `frontend` folder:
 ```
 export FLASK_APP=client
 flask run
 ```
-De frontend kan ook in Docker worden gestart. Dit kan als volgt:
+De frontend kan ook in Docker worden gestart. Dit kan, wederom in de `frontend` folder als volgt:
 ```
 docker build -t gan-frontend .
 docker run -dp 8000:8080 gan-frontend
@@ -80,7 +80,7 @@ docker run -dp 8000:8080 gan-frontend
 ## 3.3 Geïntegreerde applicatie
 Om de applicatie als één geheel te starten, kan Docker compose worden gebruikt. De configuratie hiervoor is terug te vinden in het `docker-compose.yml` bestand. Deze configuratie maakt gebruik van de `Dockerfile` bestanden voor zowel de front- als backend. 
 
-Met het volgende commando kan de gehele applicatie worden gestart:
+Met het volgende commando, uitgevoerd in de root folder van het project, kan de gehele applicatie worden gestart:
 ```
 docker compose up -d
 ```
